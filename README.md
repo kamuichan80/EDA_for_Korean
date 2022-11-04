@@ -40,9 +40,16 @@ pip install git+https://github.com/cwnu-airlab/NLTKo
 You can easily write your own implementation, but this one takes input files in the format `label\tsentence` (note the `\t`). So for instance, your input file should look like this (example from stanford sentiment treebank):
 
 ```
-1   neil burger here succeeded in making the mystery of four decades back the springboard for a more immediate mystery in the present 
-0   it is a visual rorschach test and i must have failed 
-0   the only way to tolerate this insipid brutally clueless film might be with a large dose of painkillers
+1	터치 디스플레이
+1	DB손보 차주희
+1	비 앤지 기술 월급여
+1	월 지원 운영경비
+1	주식회사 에스 비씨 리니 어
+1	LF
+1	삼성 물산 주식회사 패션 부문
+1	임정 임
+1	이성희
+1	주식회사 노루 로 지넷
 ...
 ```
 
