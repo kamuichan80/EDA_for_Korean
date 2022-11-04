@@ -60,8 +60,8 @@ def gen_eda(train_orig, output_file, alpha_sr, alpha_ri, alpha_rs, alpha_rd, num
     for i, line in enumerate(lines):
         parts = line[:-1].split('\t')
         label = parts[0]
-        sentence = parts[1:]
-        print(type(sentence))
+        sentence = parts[1]
+        #print(type(sentence))
         aug_sentences = eda(sentence, alpha_sr=alpha_sr, alpha_ri=alpha_ri, alpha_rs=alpha_rs, p_rd=alpha_rd, num_aug=num_aug)
         for aug_sentence in aug_sentences:
             writer.write(label + "\t" + aug_sentence + '\n')

@@ -32,6 +32,7 @@ random.seed(1)
 import re
 
 def get_only_hangul(line):
+	#print(line)
 	parseText= re.compile('/ ^[ㄱ-ㅎㅏ-ㅣ가-힣]*$/').sub('',line)
 
 	return parseText
@@ -49,48 +50,45 @@ from nltk import nouns
 
 def synonym_replacement(words, n):
 	new_words = words.copy()
+	#print("new_words : %s" % new_words)
+	
 	random_word_list = list(set([word for word in words]))
-	print(random_word_list)
+
+	#print(random_word_list)
 	random.shuffle(random_word_list)
 	num_replaced = 0
 	for random_word in random_word_list:
 		entrys = ssem.entrys(random_word)
-		dorandom_word_list = []
-		if len(entrys) != 0:
-			dorandom_word_list.append(random_word)
-		else:
-			pass
-		for dorandom_word in dorandom_word_list:
-			synonyms = get_synonyms(dorandom_word)
+		if (len(entrys) != 0):
+			synonyms = get_synonyms(random_word)
 			if len(synonyms) >= 1:
 				synonym = random.choice(list(synonyms))
-				new_words = synonym
+				new_words = [synonym if word == random_word else word for word in new_words]
 				#print("replaced", random_word, "with", synonym)
 				num_replaced += 1
 			if num_replaced >= n:
 				break
+		else:
+			synonyms = random_word
 
 
 	#this is stupid but we need it, trust me
-	if len(new_words) != 0:
-		sentence = ' '.join(new_words)
-		new_words = sentence.split(' ')
+	sentence = ' '.join(new_words)
+	new_words = sentence.split(' ')
 
-
-	else:
-		new_words = ""
-	
 	return new_words
 
 def get_synonyms(word):
+	#print(word)
 	entrys = ssem.entrys(word)
-	print(entrys)
+	#print(entrys)
 	sense = entrys[0].senses()[0]
-	print(sense)
-
+	#print(sense)
 	syn = sense.syn()
-
-	return syn
+	if len(syn) !=0:
+		return syn
+	else:
+		return word
 
 ########################################################################
 # Random deletion
@@ -177,24 +175,31 @@ def add_word(new_words):
 def eda(sentence, alpha_sr=0.1, alpha_ri=0.1, alpha_rs=0.1, p_rd=0.1, num_aug=9):
 	
 	sentence = get_only_hangul(sentence)
+	#print(sentence)
 	words = sentence.split(' ')
-	words = nouns(sentence)
-	print(words)
+	#words = nouns(sentence)
+	#print(words)
 	words = [word for word in words if word is not '']
 	num_words = len(words)
-	
-	augmented_sentence = []
+	#print(num_words)
+
+	#augmented_sentence = []
 	augmented_sentences = []
-	num_new_per_technique = int(num_aug/4)+1
+	num_new_per_technique = int(num_aug)+1
+	#print(num_new_per_technique)
 
 	#sr
 	if (alpha_sr > 0):
 		n_sr = max(1, int(alpha_sr*num_words))
+		#print(n_sr)
 		for _ in range(num_new_per_technique):
 			a_words = synonym_replacement(words, n_sr)
-			for a_word in a_words:
-				augmented_sentence.append(' '.join(a_word))
-			augmented_sentences.append(augmented_sentences)
+			#print(a_words)
+			#for a_word in a_words:
+			#	augmented_sentence.append(' '.join(a_word))
+			#	print(augmented_sentence)
+			#augmented_sentences.append(augmented_sentences)
+			augmented_sentences.append(' '.join(a_words))
 
 	#ri
 	if (alpha_ri > 0):
