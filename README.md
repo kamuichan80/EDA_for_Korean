@@ -27,20 +27,14 @@ Average performance on 5 datasets with and without EDA, with respect to percent 
 
 You can run EDA any text classification dataset in less than 5 minutes. Just two steps:
 
-### Install NLTK (if you don't have it already):
+### Install NLTKo (if you don't have it already):
 
 Pip install it.
 
 ```bash
-pip install -U nltk
+git config --global http.sslVerify false
+pip install git+https://github.com/cwnu-airlab/NLTKo
 ```
-
-Download WordNet.
-```bash
-python
->>> import nltk; nltk.download('wordnet')
-```
-
 ### Run EDA
 
 You can easily write your own implementation, but this one takes input files in the format `label\tsentence` (note the `\t`). So for instance, your input file should look like this (example from stanford sentiment treebank):
