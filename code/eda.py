@@ -155,8 +155,13 @@ def add_word(new_words):
 	while len(synonyms) < 1:
 		if len(new_words) >= 1:
 			random_word = new_words[random.randint(0, len(new_words)-1)]
-			synonyms = get_synonyms(random_word)
-			counter += 1
+			entrys = ssem.entrys(random_word)
+			if (len(entrys) != 0):
+				synonyms = get_synonyms(random_word)
+				counter += 1
+			else:
+				synonyms = random_word
+				counter +=1
 		else:
 			random_word = ""
 
